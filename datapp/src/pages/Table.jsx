@@ -16,7 +16,9 @@ export default function TablePage() {
     const load = async () => {
       try {
         const { data } = await api.get(base);
-        setRows(data);
+        // Sort by ID ascending
+        const sortedData = data.sort((a, b) => a.id - b.id);
+        setRows(sortedData);
       } catch (e) { 
         console.error(e); 
         if (e.response?.status === 401) {
@@ -34,39 +36,46 @@ export default function TablePage() {
   }, [base, logout, navigate]);
 
   if (loading) return <div className="p-6 text-center">Loading…</div>;
-
   if (error) return <div className="p-6 text-red-600 font-semibold">{error}</div>;
 
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Cases Table</h1>
-      <div className="bg-white rounded-xl shadow overflow-x-auto">
-        <table className="min-w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              {["ID","Patient","District","Disease","Diagnosis","Treatment"].map(h => (
-                <th key={h} className="px-3 py-2 text-left text-sm font-semibold">{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.id} className="border-t">
-                <td className="px-3 py-2">{r.id}</td>
-                <td className="px-3 py-2">{r.patient_name}</td>
-                <td className="px-3 py-2">{r.district}</td>
-                <td className="px-3 py-2">{r.disease}</td>
-                <td className="px-3 py-2">{r.diagnosis}</td>
-                <td className="px-3 py-2">{r.treatment}</td>
+    <div className="min-h-screen bg-gray-50">
+      {/* App Bar */}
+      <header className="bg-white shadow-md sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-800">Cases</h1>
+        </div>
+      </header>
+
+      {/* Table Content */}
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        <div className="bg-white rounded-xl shadow overflow-x-auto">
+          <table className="min-w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                {["ID","Patient","District","Disease","Diagnosis","Treatment"].map(h => (
+                  <th key={h} className="px-3 py-2 text-left text-sm font-semibold">{h}</th>
+                ))}
               </tr>
-            ))}
-            {rows.length === 0 && (
-              <tr><td className="px-3 py-4 text-gray-500" colSpan={6}>No data</td></tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </main>
+            </thead>
+            <tbody>
+              {rows.map((r) => (
+                <tr key={r.id} className="border-t">
+                  <td className="px-3 py-2">{r.id}</td>
+                  <td className="px-3 py-2">{r.patient_name}</td>
+                  <td className="px-3 py-2">{r.district}</td>
+                  <td className="px-3 py-2">{r.disease}</td>
+                  <td className="px-3 py-2">{r.diagnosis}</td>
+                  <td className="px-3 py-2">{r.treatment}</td>
+                </tr>
+              ))}
+              {rows.length === 0 && (
+                <tr><td className="px-3 py-4 text-gray-500" colSpan={6}>No data</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
   );
 }
-   

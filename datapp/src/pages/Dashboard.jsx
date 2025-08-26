@@ -1,41 +1,60 @@
-import { useEffect, useState } from "react";
-import Card from "../components/Card";
-import api from "../api/api";   
+import React, { useEffect, useState } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import api from "../api/api";
 import { useAuth } from "../auth/AuthContext";
 import { baseByRole } from "../utils/roles";
 import {
-  ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip,
-  PieChart, Pie, Cell, Legend
-} from "recharts";
+  ChartBarIcon,
+  ChartPieIcon,
+  UsersIcon,
+  UserIcon,
+  UserGroupIcon,
+} from "@heroicons/react/24/solid";
 
-const COLORS = ["#2563eb","#16a34a","#dc2626","#9333ea","#f59e0b","#06b6d4"];
+const COLORS = ["#2563eb", "#16a34a", "#dc2626", "#9333ea", "#f59e0b", "#06b6d4"];
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
   const base = baseByRole(user?.role);
+
   const [stats, setStats] = useState({ total_cases: 0, female_cases: 0, male_cases: 0 });
   const [byDistrict, setByDistrict] = useState([]);
   const [diseaseDist, setDiseaseDist] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const load = async () => {
+    const loadData = async () => {
       try {
         const [{ data: s }, { data: b }, { data: p }] = await Promise.all([
           api.get(`${base}statistics/`),
           api.get(`${base}by-district/`),
           api.get(`${base}disease-distribution/`),
         ]);
+
         setStats(s);
-        setByDistrict(b.map((i) => ({ district: i.district, count: i.count })));
-        setDiseaseDist(p.map((i) => ({ disease: i.disease, count: i.count })));
-      } catch (e) {
-        console.error(e);
-        if (e.response?.status === 401) {
+        setByDistrict(b.map((i) => ({ name: i.district, cases: i.count })));
+        setDiseaseDist(p.map((i) => ({ name: i.disease, value: i.count })));
+
+        setTimeout(() => setVisible(true), 200); // trigger fade/slide animation
+      } catch (err) {
+        console.error(err);
+        if (err.response?.status === 401) {
           setError("Unauthorized. Please log in again.");
           logout();
-          // optional: navigate to login if you use react-router
         } else {
           setError("Failed to load dashboard data.");
         }
@@ -43,56 +62,148 @@ export default function Dashboard() {
         setLoading(false);
       }
     };
-    load();
+
+    loadData();
   }, [base, logout]);
 
   const cards = [
-    { title: "Total Cases", value: stats.total_cases, accent: "text-blue-600" },
-    { title: "Female Cases", value: stats.female_cases, accent: "text-pink-600" },
-    { title: "Male Cases", value: stats.male_cases, accent: "text-teal-600" },
+    { title: "Total Cases", value: stats.total_cases, accent: "text-blue-600", icon: UsersIcon },
+    { title: "Female Cases", value: stats.female_cases, accent: "text-pink-600", icon: UserIcon },
+    { title: "Male Cases", value: stats.male_cases, accent: "text-teal-600", icon: UserGroupIcon },
   ];
 
   if (loading) return <div className="p-6 text-center">Loading…</div>;
   if (error) return <div className="p-6 text-red-600 font-semibold">{error}</div>;
 
   return (
-    <main className="p-6 space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {cards.map((c) => (
-          <Card key={c.title} title={c.title}>
-            <div className={`text-3xl font-bold ${c.accent}`}>{c.value}</div>
-          </Card>
-        ))}
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* App Bar */}
+      <header className="bg-white shadow-md sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-800">Cases</h1>
+        </div>
+      </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card title="Cases by District">
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={byDistrict}>
-                <XAxis dataKey="district" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="count" />
-              </BarChart>
-            </ResponsiveContainer>
+      {/* Content */}
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+          {cards.map((card, idx) => {
+            const Icon = card.icon;
+            return (
+              <div
+                key={idx}
+                className={`bg-white p-6 rounded-2xl shadow hover:shadow-lg transition-all duration-700 ease-out transform ${
+                  visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <Icon
+                    className={`w-6 h-6 ${card.accent} transition-all duration-700 ease-out transform ${
+                      visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                    }`}
+                  />
+                  <h2
+                    className={`text-lg font-medium text-gray-600 transition-all duration-700 ease-out transform ${
+                      visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                    }`}
+                  >
+                    {card.title}
+                  </h2>
+                </div>
+                <p
+                  className={`mt-2 text-3xl font-bold ${card.accent} transition-all duration-700 ease-out transform ${
+                    visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                  }`}
+                >
+                  {card.value}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Bar Chart */}
+          <div
+            className={`bg-white p-6 rounded-2xl shadow transition-all duration-1000 ease-out transform ${
+              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <ChartBarIcon
+                className={`w-6 h-6 text-gray-600 transition-all duration-1000 ease-out transform ${
+                  visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              />
+              <h2
+                className={`text-lg font-semibold transition-all duration-1000 ease-out transform ${
+                  visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              >
+                Cases by District
+              </h2>
+            </div>
+            <div className="w-full h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={byDistrict}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="cases" fill="#2563eb" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
-        </Card>
-           
-        <Card title="Disease Distribution">
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={diseaseDist} dataKey="count" nameKey="disease" cx="50%" cy="50%" outerRadius={90} label>
-                  {diseaseDist.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
-                </Pie>
-                <Legend />
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+
+          {/* Pie Chart */}
+          <div
+            className={`bg-white p-6 rounded-2xl shadow transition-all duration-1000 ease-out transform ${
+              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <ChartPieIcon
+                className={`w-6 h-6 text-gray-600 transition-all duration-1000 ease-out transform ${
+                  visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              />
+              <h2
+                className={`text-lg font-semibold transition-all duration-1000 ease-out transform ${
+                  visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              >
+                Disease Distribution
+              </h2>
+            </div>
+            <div className="w-full h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={diseaseDist}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={100}
+                    dataKey="value"
+                  >
+                    {diseaseDist.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </div>
-        </Card>
-      </div>
-    </main>
+        </div>
+      </main>
+    </div>
   );
 }

@@ -24,10 +24,7 @@ export default function Login() {
       <form
         onSubmit={onSubmit}
         className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-sm"
-      >
-        <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          Login
-        </h1>
+      >    
 
         {err && <p className="text-red-600 text-sm mb-4">{err}</p>}
 
@@ -63,3 +60,4 @@ export default function Login() {
     </div>
   );
 }
+   

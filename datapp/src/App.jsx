@@ -5,7 +5,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import TablePage from "./pages/Table";
 import ReportPage from "./pages/Report";
-import MapPage from "./pages/Map";
+import MapPage from "./pages/Map"; 
 import { useAuth } from "./auth/AuthContext";
 
 function Private({ children }) {
@@ -29,6 +29,7 @@ export default function App() {
           <Route path="/table" element={<Private><TablePage /></Private>} />
           <Route path="/report" element={<Private><ReportPage /></Private>} />
           <Route path="/map" element={<Private><MapPage /></Private>} />
+    
 
           <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} replace />} />
         </Routes>

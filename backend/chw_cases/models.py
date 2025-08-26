@@ -11,7 +11,7 @@ class Case(models.Model):
     patient_name = models.CharField(max_length=200, blank=True)
     age = models.IntegerField(null=True, blank=True)
     sex = models.CharField(max_length=10, blank=True)
-    disease = models.CharField(max_length=200, blank=True)
+    disease = models.CharField(max_length=200, blank=True)   
     notes = models.TextField(blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
