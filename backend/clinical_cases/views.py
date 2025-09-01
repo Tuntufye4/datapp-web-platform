@@ -50,7 +50,7 @@ class ClinicalCaseViewSet(viewsets.ModelViewSet):
         male_cases = Case.objects.filter(created_by=request.user, sex='Male').count()
         female_cases = Case.objects.filter(created_by=request.user, sex='Female').count()
 
-       
+
 
         return Response({
             "total_cases": total_cases,
