@@ -22,7 +22,17 @@ class Case(models.Model):
     symptoms = models.TextField(blank=True)
     address = models.TextField(blank=True)
     district = models.TextField(blank=True)
-                          
+    admission_status = models.TextField(blank=True)  
+    referral_facility = models.TextField(blank=True)
+    triage_level = models.TextField(blank=True)
+    vital_signs = models.TextField(blank=True)
+    physical_exam_notes = models.TextField(blank=True)
+    lab_tests_ordered = models.TextField(blank=True)
+    lab_results_summary = models.TextField(blank=True)
+    procedures_done = models.TextField(blank=True)  
+    discharge_notes = models.TextField(blank=True)
+    follow_up_plan = models.TextField(blank=True)
+
     def __str__(self):
         return f"{self.disease} - {self.patient_name or 'anon'}"
   

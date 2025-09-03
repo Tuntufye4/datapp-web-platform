@@ -21,7 +21,14 @@ class Case(models.Model):
     surveillance_notes = models.TextField(blank=True)
     symptoms = models.TextField(blank=True)
     address = models.TextField(blank=True)
-    district = models.TextField(blank=True)      
+    district = models.TextField(blank=True) 
+    supervising_facility = models.TextField(blank=True)     
+    reporting_method = models.TextField(blank=True)
+    population_estimate = models.IntegerField(null=True, blank=True)
+    case_source = models.TextField(blank=True)
+    contact_tracing_done = models.TextField(blank=True)
+    environmental_risk_factors = models.TextField(blank=True)
+    vector_control_measure = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.disease} - {self.patient_name or 'anon'}"
