@@ -29,9 +29,7 @@ export default function Sidebar() {
         <NavLink to="/dashboard" className={linkClass}>Dashboard</NavLink>  
         <NavLink to="/table" className={linkClass}>Table</NavLink>
         <NavLink to="/report" className={linkClass}>Report</NavLink>
-        <NavLink to="/map" className={linkClass}>Map</NavLink>
-        <NavLink to="#" className={linkClass}>Help</NavLink>
-        <NavLink to="#" className={linkClass}>Settings</NavLink>
+        <NavLink to="/map" className={linkClass}>Map</NavLink>  
       </nav>
 
       {/* Logout Button */}
