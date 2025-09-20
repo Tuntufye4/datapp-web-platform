@@ -80,7 +80,7 @@ export default function Dashboard() {
       {/* App Bar */}
       <header className="bg-white shadow-md sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-800">Cases</h1>
+    
         </div>
       </header>
 
