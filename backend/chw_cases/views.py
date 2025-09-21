@@ -61,7 +61,9 @@ class CHWCaseViewSet(viewsets.ModelViewSet):
         total_cases = qs.count()
         male_cases = qs.filter(sex='Male').count()
         female_cases = qs.filter(sex='Female').count()
-        
+        confirmed_cases = qs.filter(classification='Confirmed').count()
+        probable_cases = qs.filter(classification='Probable').count()   
+
         # Calculate average cases per patient (using distinct patient_name)
         distinct_patients = qs.values("patient_name").distinct().count()
         avg_total_cases = total_cases / distinct_patients if distinct_patients > 0 else 0
@@ -72,11 +74,15 @@ class CHWCaseViewSet(viewsets.ModelViewSet):
 
         distinct_female_patients = qs.filter(sex="Female").values("patient_name").distinct().count()
         avg_female_cases = female_cases / distinct_female_patients if distinct_female_patients > 0 else 0
+        
+      
 
         return Response({
             "total_cases": total_cases,
             "male_cases": male_cases,
             "female_cases": female_cases, 
+            "confirmed_cases": confirmed_cases, 
+            "probale_cases": probable_cases,     
             "avg_total_cases": round(avg_total_cases, 2),   
             "avg_male_cases": round(avg_male_cases, 2),
             "avg_female_cases": round(avg_female_cases, 2),

@@ -8,13 +8,13 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 const DefaultIcon = L.icon({ iconUrl, shadowUrl: iconShadow });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-export default function ClientMap({ markers = [] }) {
+export default function ClientMap({ markers = [] }) {  
   return (
     <MapContainer center={[-13.2543, 34.3015]} zoom={6} style={{ height: "100%", width: "100%" }}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {markers
         .filter((m) => m.latitude && m.longitude)
-        .map((m) => (
+        .map((m) => (      
           <Marker key={m.id} position={[m.latitude, m.longitude]}>
             <Popup>
               <div className="font-semibold">{m.patient_name}</div>

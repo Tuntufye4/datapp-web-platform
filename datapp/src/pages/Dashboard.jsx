@@ -3,7 +3,7 @@ import {
   BarChart,
   Bar,
   XAxis,
-  YAxis,
+  YAxis,    
   CartesianGrid,
   Tooltip,
   PieChart,
@@ -29,14 +29,14 @@ export default function Dashboard() {
   const { user, logout } = useAuth();
   const base = baseByRole(user?.role);
 
-  const [stats, setStats] = useState({ total_cases: 0, female_cases: 0, male_cases: 0 });
+  const [stats, setStats] = useState({ total_cases: 0, confirmed_cases: 0, probable_cases: 0 });
   const [byDistrict, setByDistrict] = useState([]);
   const [diseaseDist, setDiseaseDist] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false);        
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  useEffect(() => {          
     const loadData = async () => {
       try {
         const [{ data: s }, { data: b }, { data: p }] = await Promise.all([
@@ -68,8 +68,8 @@ export default function Dashboard() {
 
   const cards = [
     { title: "Total Cases", value: stats.total_cases, accent: "text-blue-600", icon: UsersIcon },
-    { title: "Female Cases", value: stats.female_cases, accent: "text-pink-600", icon: UserIcon },
-    { title: "Male Cases", value: stats.male_cases, accent: "text-teal-600", icon: UserGroupIcon },
+    { title: "Confirmed Cases", value: stats.confirmed_cases, accent: "text-pink-600", icon: UserIcon },
+    { title: "Probable Cases", value: stats.probable_cases, accent: "text-teal-600", icon: UserGroupIcon },
   ];
 
   if (loading) return <div className="p-6 text-center">Loading…</div>;

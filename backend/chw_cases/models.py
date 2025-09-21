@@ -27,8 +27,9 @@ class Case(models.Model):
     reporting_method = models.TextField(blank=True)        
     visit_date = models.DateField(blank=True, null=True)      
     encounter_location = models.TextField(blank=True)
-    follow_up_required = models.TextField(blank=True)
+    follow_up_required = models.TextField(blank=True)   
+    classification = models.TextField(blank=True)
       
-    def __str__(self):   
+    def __str__(self):       
         return f"{self.disease} - {self.patient_name or 'anon'}" 
                 
