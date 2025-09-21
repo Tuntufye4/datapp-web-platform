@@ -32,17 +32,14 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen grid place-items-center">
-      <form
-        onSubmit={onSubmit}
-        className="bg-white rounded-2xl shadow p-8 w-full max-w-sm"
-      >
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <form onSubmit={onSubmit} className="w-full max-w-sm p-4">
         <h1 className="text-2xl font-bold mb-6 text-center">Create account</h1>
 
         <input
           name="username"
           placeholder="Username"
-          className="border rounded w-full p-2 mb-3"
+          className="border border-gray-300 rounded-full w-full p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={onChange}
           required
         />
@@ -51,21 +48,21 @@ export default function Register() {
           name="email"
           type="email"
           placeholder="Email"
-          className="border rounded w-full p-2 mb-3"
+          className="border border-gray-300 rounded-full w-full p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={onChange}
         />
 
         <input
           name="first_name"
           placeholder="First Name"
-          className="border rounded w-full p-2 mb-3"
+          className="border border-gray-300 rounded-full w-full p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={onChange}
         />
 
         <input
           name="last_name"
           placeholder="Last Name"
-          className="border rounded w-full p-2 mb-3"
+          className="border border-gray-300 rounded-full w-full p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={onChange}
         />
 
@@ -73,7 +70,7 @@ export default function Register() {
           name="password"
           type="password"
           placeholder="Password"
-          className="border rounded w-full p-2 mb-3"
+          className="border border-gray-300 rounded-full w-full p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={onChange}
           required
         />
@@ -82,7 +79,7 @@ export default function Register() {
         <select
           name="role"
           value={form.role}
-          className="border rounded w-full p-2 mb-4"
+          className="border border-gray-300 rounded-full w-full p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={onChange}
         >
           <option value="CHW">CHW</option>
@@ -92,13 +89,13 @@ export default function Register() {
 
         {err && <p className="text-red-600 mb-3">{err}</p>}
 
-        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">
+        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full transition-colors">
           Register
         </button>
 
-        <p className="text-sm mt-3">
+        <p className="text-sm mt-3 text-center">
           Have an account?{" "}
-          <Link to="/login" className="text-blue-600 underline">
+          <Link to="/login" className="text-blue-600 hover:underline">
             Login
           </Link>
         </p>
@@ -106,3 +103,4 @@ export default function Register() {
     </div>
   );
 }
+    

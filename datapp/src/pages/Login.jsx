@@ -11,7 +11,7 @@ export default function Login() {
     e.preventDefault();
     setErr("");
     try {
-      await login(username, password); // login sets role internally
+      await login(username, password);
       alert("Login successful!");
     } catch (error) {
       console.error(error);
@@ -21,11 +21,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={onSubmit}
-        className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-sm"
-      >    
-
+      <form onSubmit={onSubmit} className="w-full max-w-sm p-4">
         {err && <p className="text-red-600 text-sm mb-4">{err}</p>}
 
         <input
@@ -33,7 +29,7 @@ export default function Login() {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="border border-gray-300 rounded-lg p-3 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border border-gray-300 rounded-full p-3 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
         <input
@@ -41,12 +37,12 @@ export default function Login() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border border-gray-300 rounded-lg p-3 w-full mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border border-gray-300 rounded-full p-3 w-full mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-full transition-colors"
         >
           Login
         </button>
@@ -60,4 +56,3 @@ export default function Login() {
     </div>
   );
 }
-   
