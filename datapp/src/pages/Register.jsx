@@ -32,7 +32,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-white">
       <form onSubmit={onSubmit} className="w-full max-w-sm p-4">
         <h1 className="text-2xl font-bold mb-6 text-center">Create account</h1>
 

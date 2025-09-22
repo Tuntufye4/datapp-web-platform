@@ -8,7 +8,7 @@ export default function TablePage() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();        
   const base = baseByRole(user?.role);
-  const [rows, setRows] = useState([]);   
+  const [rows, setRows] = useState([]);     
   const [filteredRows, setFilteredRows] = useState([]);
   const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
@@ -71,7 +71,7 @@ export default function TablePage() {
     URL.revokeObjectURL(url);
   };
 
-  if (loading) return <div className="p-6 text-center">Loading…</div>;
+  /*if (loading) return <div className="p-6 text-center">Loading…</div>; */   
   if (error) return <div className="p-6 text-red-600 font-semibold">{error}</div>;
 
   return (

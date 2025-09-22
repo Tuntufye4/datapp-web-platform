@@ -20,13 +20,13 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-white">
       <form onSubmit={onSubmit} className="w-full max-w-sm p-4">
         {err && <p className="text-red-600 text-sm mb-4">{err}</p>}
 
         <input
           type="text"
-          placeholder="Username"
+          placeholder="Username"   
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           className="border border-gray-300 rounded-full p-3 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"

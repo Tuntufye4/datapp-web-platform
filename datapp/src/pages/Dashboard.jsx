@@ -72,14 +72,14 @@ export default function Dashboard() {
     { title: "Probable Cases", value: stats.probable_cases, accent: "text-teal-600", icon: UserGroupIcon },
   ];
 
-  if (loading) return <div className="p-6 text-center">Loading…</div>;
-  if (error) return <div className="p-6 text-red-600 font-semibold">{error}</div>;
+/*  if (loading) return <div className="p-6 text-center">Loading…</div>; */      
+  if (error) return <div className="p-6 text-red-600 font-semibold">{error}</div>;     
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">       
       {/* App Bar */}
       <header className="bg-white shadow-md sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">  
     
         </div>
       </header>
@@ -132,11 +132,6 @@ export default function Dashboard() {
             }`}
           >
             <div className="flex items-center gap-2 mb-4">
-              <ChartBarIcon
-                className={`w-6 h-6 text-gray-600 transition-all duration-1000 ease-out transform ${
-                  visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                }`}
-              />
               <h2
                 className={`text-lg font-semibold transition-all duration-1000 ease-out transform ${
                   visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -164,12 +159,7 @@ export default function Dashboard() {
               visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <div className="flex items-center gap-2 mb-4">
-              <ChartPieIcon
-                className={`w-6 h-6 text-gray-600 transition-all duration-1000 ease-out transform ${
-                  visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                }`}
-              />
+            <div className="flex items-center gap-2 mb-4">  
               <h2
                 className={`text-lg font-semibold transition-all duration-1000 ease-out transform ${
                   visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
