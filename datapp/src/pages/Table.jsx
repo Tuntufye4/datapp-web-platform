@@ -44,7 +44,7 @@ export default function TablePage() {
     } else {
       const term = search.toLowerCase();
       setFilteredRows(
-        rows.filter(r =>
+        rows.filter(r =>  
           Object.values(r).some(val =>
             String(val).toLowerCase().includes(term)
           )
@@ -55,11 +55,11 @@ export default function TablePage() {
 
   // Export to CSV
   const exportCSV = () => {
-    const headers = ["ID","Patient","District","Disease","Diagnosis","Treatment"];
+    const headers = ["ID","Patient","District","Disease","Diagnosis","Treatment","Visit_type"];
     const csvRows = [
       headers.join(","), // header row
       ...filteredRows.map(r =>
-        [r.id, r.patient_name, r.district, r.disease, r.diagnosis, r.treatment].join(",")
+        [r.id, r.patient_name, r.district, r.disease, r.diagnosis, r.treatment, r.visit_type].join(",")
       )
     ];
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
@@ -106,7 +106,7 @@ export default function TablePage() {
           <table className="min-w-full">
             <thead className="bg-gray-50">
               <tr>
-                {["ID","Patient","District","Disease","Diagnosis","Treatment"].map(h => (
+                {["ID","Patient","District","Disease","Diagnosis","Treatment","Visit type"].map(h => (
                   <th key={h} className="px-3 py-2 text-left text-sm font-semibold">{h}</th>
                 ))}
               </tr>
@@ -119,7 +119,8 @@ export default function TablePage() {
                   <td className="px-3 py-2">{r.district}</td>
                   <td className="px-3 py-2">{r.disease}</td>
                   <td className="px-3 py-2">{r.diagnosis}</td>
-                  <td className="px-3 py-2">{r.treatment}</td>
+                  <td className="px-3 py-2">{r.treatment}</td>  
+                  <td className="px-3 py-2">{r.visit_type}</td>
                 </tr>
               ))}
               {filteredRows.length === 0 && (
@@ -132,3 +133,4 @@ export default function TablePage() {
     </div>
   );
 }
+   
