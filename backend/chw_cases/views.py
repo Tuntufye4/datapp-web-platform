@@ -47,6 +47,61 @@ class CHWCaseViewSet(viewsets.ModelViewSet):
             .order_by('disease')
         )
         return Response(list(data))
+    
+    
+    @action(detail=False, methods=['get'], url_path='diagnosis-distribution')
+    def diagnosis_distribution(self, request):
+        """
+        Returns the number of cases per disease filtered by patient_name if provided.
+        """
+        qs = Case.objects.all()
+        patient_name = request.query_params.get("patient_name")
+        if patient_name:
+            qs = qs.filter(patient_name__icontains=patient_name)
+
+        data = (
+            qs.values('diagnosis')
+            .annotate(count=Count('id'))
+            .order_by('diagnosis')
+        )
+        return Response(list(data))
+    
+
+    @action(detail=False, methods=['get'], url_path='symptoms-distribution')
+    def symptoms_distribution(self, request):
+        """
+        Returns the number of cases per disease filtered by patient_name if provided.
+        """
+        qs = Case.objects.all()
+        patient_name = request.query_params.get("patient_name")
+        if patient_name:
+            qs = qs.filter(patient_name__icontains=patient_name)
+
+        data = (
+            qs.values('symptoms')
+            .annotate(count=Count('id'))
+            .order_by('symptoms')
+        )
+        return Response(list(data))
+    
+
+    @action(detail=False, methods=['get'], url_path='classification-distribution')
+    def classification_distribution(self, request):
+        """
+        Returns the number of cases per disease filtered by patient_name if provided.
+        """
+        qs = Case.objects.all()
+        patient_name = request.query_params.get("patient_name")
+        if patient_name:
+            qs = qs.filter(patient_name__icontains=patient_name)
+
+        data = (
+            qs.values('classification')
+            .annotate(count=Count('id'))
+            .order_by('classification')
+        )
+        return Response(list(data))
+    
 
     @action(detail=False, methods=['get'], url_path='statistics')
     def statistics(self, request):
@@ -63,6 +118,15 @@ class CHWCaseViewSet(viewsets.ModelViewSet):
         female_cases = qs.filter(sex='Female').count()
         confirmed_cases = qs.filter(classification='Confirmed').count()
         probable_cases = qs.filter(classification='Probable').count()   
+        diagnosis_ml = qs.filter(diagnosis='Malaria').count() 
+        diagnosis_pn = qs.filter(diagnosis='Pneumonia').count() 
+        diagnosis_tf = qs.filter(diagnosis='Typhoid Fever').count() 
+        diagnosis_hy = qs.filter(diagnosis='Hypertension').count() 
+        visittype_iv = qs.filter(visit_type='Initial Visit').count() 
+        visittype_fv = qs.filter(visit_type='Follow-up Visit').count() 
+        housingtype_fv = qs.filter(housing_type='Permanent').count()
+        housingtype_sp = qs.filter(housing_type='Semi-permanent').count()
+        housingtype_td = qs.filter(housing_type='Traditional').count()
 
         # Calculate average cases per patient (using distinct patient_name)
         distinct_patients = qs.values("patient_name").distinct().count()
@@ -86,4 +150,13 @@ class CHWCaseViewSet(viewsets.ModelViewSet):
             "avg_total_cases": round(avg_total_cases, 2),   
             "avg_male_cases": round(avg_male_cases, 2),
             "avg_female_cases": round(avg_female_cases, 2),
-        })
+            "diagnosis_ml": diagnosis_ml,
+            "diagnosis_pn": diagnosis_pn,
+            "diagnosis_tf": diagnosis_tf,
+            "diagnosis_hy": diagnosis_hy,
+            "visittype_iv": visittype_iv,
+            "visittype_fv": visittype_fv,
+            "housingtype_fv": housingtype_fv,
+            "housingtype_sd": housingtype_sp,
+            "housingtype_sp": housingtype_td,
+        })   

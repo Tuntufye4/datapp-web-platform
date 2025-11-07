@@ -85,16 +85,16 @@ class HSOCaseViewSet(viewsets.ModelViewSet):
         )
         return Response(list(data))
     
-    @action(detail=False, methods=['get'], url_path='vector-control-distribution')
-    def vector_control_distribution(self, request):
+    @action(detail=False, methods=['get'], url_path='report-method')
+    def report_method(self, request):
         """
-        Returns case counts by vector control measure for the logged-in user.
+        Returns case counts by reporting method for the logged-in user.
         """
         data = (
             self.get_queryset()   
-            .values('Vector_control_measure')  
+            .values('reporting_method')  
             .annotate(count=Count('id'))
-            .order_by('Vector_control_measure')
+            .order_by('reporting_method')
         )
         return Response(list(data))
     
@@ -129,7 +129,10 @@ class HSOCaseViewSet(viewsets.ModelViewSet):
         diagnosis_pn = self.get_queryset(diagnosis='Pneumonia').count()
         diagnosis_tf = self.get_queryset(diagnosis='Typhoid Fever').count()
         diagnosis_hy = self.get_queryset(diagnosis='Hypertension').count()
-
+        report_method_pf = self.get_queryset(reporting_method='Paper Form').count()
+        report_method_sm = self.get_queryset(reporting_method='SMS').count()
+        report_method_ma = self.get_queryset(reporting_method='Mobile App').count()  
+   
         return Response({
             "total_cases": total_cases,
             "male_cases": male_cases,
@@ -141,6 +144,9 @@ class HSOCaseViewSet(viewsets.ModelViewSet):
             "diagnosis_ml": diagnosis_ml,
             "diagnosis_pn": diagnosis_pn,
             "diagnosis_tf": diagnosis_tf,
-            "diagnosis_hy": diagnosis_hy,  
+            "diagnosis_hy": diagnosis_hy, 
+            "report_method_pf": report_method_pf,
+            "report_method_sm" : report_method_sm,
+            "report_method_ma" : report_method_ma,
         }) 
      
