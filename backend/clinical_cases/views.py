@@ -86,6 +86,35 @@ class ClinicalCaseViewSet(viewsets.ModelViewSet):
         )
         return Response(list(data))
     
+    @action(detail=False, methods=['get'], url_path='admissionstatus-distribution')
+    def admissionstatus(self, request):
+        """
+        Returns the number of cases per admission_status for the logged-in user.
+        """
+        data = (
+            Case.objects
+            .filter(created_by=request.user)
+            .values('admission_status')
+            .annotate(count=Count('id'))
+            .order_by('admission_status')
+        )
+        return Response(list(data))
+    
+
+    @action(detail=False, methods=['get'], url_path='triagelevel-distribution')
+    def triagelevel(self, request):
+        """
+        Returns the number of cases per triagelevel for the logged-in user.
+        """
+        data = (
+            Case.objects
+            .filter(created_by=request.user)
+            .values('triage_level')
+            .annotate(count=Count('id'))
+            .order_by('triage_level')
+        )
+        return Response(list(data))   
+    
 
     @action(detail=False, methods=['get'], url_path='statistics')
     def statistics(self, request):
@@ -107,6 +136,9 @@ class ClinicalCaseViewSet(viewsets.ModelViewSet):
         diagnosis_pn = Case.objects.filter(created_by=request.user, treatment='Pneumonia').count()
         diagnosis_tf = Case.objects.filter(created_by=request.user, treatment='Typhoid Fever').count()
         diagnosis_hy = Case.objects.filter(created_by=request.user, treatment='Hypertension').count()
+        admissionstatus_ad = Case.objects.filter(created_by=request.user, admission_status='Admitted').count()
+        admissionstatus_ds = Case.objects.filter(created_by=request.user, admission_status='Discharged').count()
+        admissionstatus_rf = Case.objects.filter(created_by=request.user, admission_status='Referred').count()
 
 
         return Response({
@@ -124,6 +156,9 @@ class ClinicalCaseViewSet(viewsets.ModelViewSet):
             "diagnosis_ml": diagnosis_ml,
             "diagnosis_pn": diagnosis_pn,
             "diagnosis_tf": diagnosis_tf,
-            "diagnosis_hy": diagnosis_hy,  
+            "diagnosis_hy": diagnosis_hy,     
+            "admissionstatus_ad": admissionstatus_ad,
+            "admissionstatus_ds": admissionstatus_ds,
+            "admissionstatus_rf": admissionstatus_rf,
 
         })

@@ -48,29 +48,11 @@ class CHWCaseViewSet(viewsets.ModelViewSet):
         )
         return Response(list(data))
     
-    
-    @action(detail=False, methods=['get'], url_path='diagnosis-distribution')
-    def diagnosis_distribution(self, request):
-        """
-        Returns the number of cases per disease filtered by patient_name if provided.
-        """
-        qs = Case.objects.all()
-        patient_name = request.query_params.get("patient_name")
-        if patient_name:
-            qs = qs.filter(patient_name__icontains=patient_name)
-
-        data = (
-            qs.values('diagnosis')
-            .annotate(count=Count('id'))
-            .order_by('diagnosis')
-        )
-        return Response(list(data))
-    
 
     @action(detail=False, methods=['get'], url_path='symptoms-distribution')
     def symptoms_distribution(self, request):
         """
-        Returns the number of cases per disease filtered by patient_name if provided.
+        Returns the number of cases per symptoms filtered by patient_name if provided.
         """
         qs = Case.objects.all()
         patient_name = request.query_params.get("patient_name")
@@ -88,7 +70,7 @@ class CHWCaseViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='classification-distribution')
     def classification_distribution(self, request):
         """
-        Returns the number of cases per disease filtered by patient_name if provided.
+        Returns the number of cases per classification filtered by patient_name if provided.
         """
         qs = Case.objects.all()
         patient_name = request.query_params.get("patient_name")
@@ -99,6 +81,78 @@ class CHWCaseViewSet(viewsets.ModelViewSet):
             qs.values('classification')
             .annotate(count=Count('id'))
             .order_by('classification')
+        )
+        return Response(list(data))
+    
+
+    @action(detail=False, methods=['get'], url_path='treatment-distribution')
+    def treatments(self, request):
+        """
+        Returns the number of cases per treatment filtered by patient_name if provided.
+        """
+        qs = Case.objects.all()
+        patient_name = request.query_params.get("patient_name")
+        if patient_name:
+            qs = qs.filter(patient_name__icontains=patient_name)
+
+        data = (
+            qs.values('treatment')
+            .annotate(count=Count('id'))
+            .order_by('treatment')
+        )
+        return Response(list(data))
+    
+
+    @action(detail=False, methods=['get'], url_path='diagnosis-distribution')
+    def diagnosis(self, request):
+        """
+        Returns the number of cases per diagnosis filtered by patient_name if provided.
+        """
+        qs = Case.objects.all()
+        patient_name = request.query_params.get("patient_name")
+        if patient_name:
+            qs = qs.filter(patient_name__icontains=patient_name)
+
+        data = (
+            qs.values('diagnosis')
+            .annotate(count=Count('id'))
+            .order_by('diagnosis')
+        )
+        return Response(list(data))
+    
+
+    @action(detail=False, methods=['get'], url_path='housing_type-distribution')
+    def housingtype(self, request):
+        """
+        Returns the number of cases per housing_type filtered by patient_name if provided.
+        """
+        qs = Case.objects.all()
+        patient_name = request.query_params.get("patient_name")
+        if patient_name:
+            qs = qs.filter(patient_name__icontains=patient_name)
+
+        data = (
+            qs.values('housing_type')
+            .annotate(count=Count('id'))
+            .order_by('housing_type')
+        )
+        return Response(list(data))
+    
+    
+    @action(detail=False, methods=['get'], url_path='visit_type-distribution')
+    def visittype(self, request):
+        """
+        Returns the number of cases per visit_type filtered by patient_name if provided.
+        """
+        qs = Case.objects.all()
+        patient_name = request.query_params.get("patient_name")
+        if patient_name:
+            qs = qs.filter(patient_name__icontains=patient_name)
+
+        data = (
+            qs.values('visit_type')
+            .annotate(count=Count('id'))
+            .order_by('visit_type')   
         )
         return Response(list(data))
     
