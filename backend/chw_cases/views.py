@@ -121,9 +121,7 @@ class CHWCaseViewSet(viewsets.ModelViewSet):
         diagnosis_ml = qs.filter(diagnosis='Malaria').count() 
         diagnosis_pn = qs.filter(diagnosis='Pneumonia').count() 
         diagnosis_tf = qs.filter(diagnosis='Typhoid Fever').count() 
-        diagnosis_hy = qs.filter(diagnosis='Hypertension').count() 
-        visittype_iv = qs.filter(visit_type='Initial Visit').count() 
-        visittype_fv = qs.filter(visit_type='Follow-up Visit').count() 
+        diagnosis_hy = qs.filter(diagnosis='Hypertension').count()    
         housingtype_fv = qs.filter(housing_type='Permanent').count()
         housingtype_sp = qs.filter(housing_type='Semi-permanent').count()
         housingtype_td = qs.filter(housing_type='Traditional').count()
@@ -154,8 +152,6 @@ class CHWCaseViewSet(viewsets.ModelViewSet):
             "diagnosis_pn": diagnosis_pn,
             "diagnosis_tf": diagnosis_tf,
             "diagnosis_hy": diagnosis_hy,
-            "visittype_iv": visittype_iv,
-            "visittype_fv": visittype_fv,
             "housingtype_fv": housingtype_fv,
             "housingtype_sd": housingtype_sp,
             "housingtype_sp": housingtype_td,
