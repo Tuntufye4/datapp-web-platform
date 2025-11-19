@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react"; 
-import api from "../api/api";
-import { useAuth } from "../auth/AuthContext";
-import { baseByRole } from "../utils/roles";  
+import api from "../../api/api";   
+import { useAuth } from "../../auth/AuthContext";
+import { baseByRole } from "../../utils/roles";    
 import { useNavigate } from "react-router-dom";
 
-export default function TablePage() {                   
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();        
+export default function EnvTablePage() {                         
+  const { user, logout } = useAuth();   
+  const navigate = useNavigate();            
   const base = baseByRole(user?.role);
   const [rows, setRows] = useState([]);     
   const [filteredRows, setFilteredRows] = useState([]);
   const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {   
     const load = async () => {
       try {
@@ -55,11 +55,11 @@ export default function TablePage() {
 
   // Export to CSV
   const exportCSV = () => {
-    const headers = ["ID","Patient","District","Disease","Diagnosis","Treatment","Visit_type"];
+    const headers = ["ID","Contact tracing","Environmental risk factors","Vector control measure"];
     const csvRows = [
       headers.join(","), // header row
       ...filteredRows.map(r =>
-        [r.id, r.patient_name, r.district, r.disease, r.diagnosis, r.treatment, r.visit_type].join(",")
+        [r.id, r.disease, r.treatment, r.diagnosis, r.symptoms].join(",")
       )
     ];
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
@@ -87,7 +87,7 @@ export default function TablePage() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center">
         <input
           type="text"
-          placeholder="Search cases..."
+          placeholder="Search clinical details..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="border rounded-md px-3 py-2 w-full sm:w-1/3 focus:outline-none focus:ring focus:ring-indigo-200"
@@ -106,25 +106,22 @@ export default function TablePage() {
           <table className="min-w-full">
             <thead className="bg-gray-50">
               <tr>
-                {["ID","Patient","District","Disease","Diagnosis","Treatment","Visit type"].map(h => (
+                {["ID","Contact tracing","Environmental risk factors","Vector control measure"].map(h => (
                   <th key={h} className="px-3 py-2 text-left text-sm font-semibold">{h}</th>
-                ))}
+                ))}   
               </tr>
             </thead>
             <tbody>
               {filteredRows.map((r) => (
                 <tr key={r.id} className="border-t">
                   <td className="px-3 py-2">{r.id}</td>
-                  <td className="px-3 py-2">{r.patient_name}</td>
-                  <td className="px-3 py-2">{r.district}</td>
-                  <td className="px-3 py-2">{r.disease}</td>
-                  <td className="px-3 py-2">{r.diagnosis}</td>
-                  <td className="px-3 py-2">{r.treatment}</td>  
-                  <td className="px-3 py-2">{r.visit_type}</td>
+                  <td className="px-3 py-2">{r.contact_tracing_done}</td>
+                  <td className="px-3 py-2">{r.environmental_risk_factors}</td>     
+                  <td className="px-3 py-2">{r.vector_control_measure}</td>    
                 </tr>
               ))}
               {filteredRows.length === 0 && (
-                <tr><td className="px-3 py-4 text-gray-500" colSpan={6}>No matching cases</td></tr>
+                <tr><td className="px-3 py-4 text-gray-500" colSpan={6}>No matching environmental risk factors</td></tr>
               )}
             </tbody>
           </table>
@@ -133,4 +130,4 @@ export default function TablePage() {
     </div>
   );
 }
-   
+      

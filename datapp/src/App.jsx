@@ -3,8 +3,11 @@ import Sidebar from "./components/Sidebar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import TablePage from "./pages/Table";
-import ReportPage from "./pages/Report";
+import ClinicalTablePage from "./pages/table_list/clinical_list";   
+import DemographicsTablePage from "./pages/table_list/demographics_list";   
+import EnvTablePage from "./pages/table_list/env_risk_factors";    
+import ClinicalReportPage from "./pages/reports/clinical_details";   
+import DemographicsReportPage from "./pages/reports/demographics_report";
 import MapPage from "./pages/Map";    
 import { useAuth } from "./auth/AuthContext";
 
@@ -15,7 +18,7 @@ function Private({ children }) {
 
 export default function App() {
   const { user } = useAuth();
-
+    
   return (
     <BrowserRouter>
       {user && <Sidebar />}
@@ -26,14 +29,17 @@ export default function App() {
           <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register />} />
 
           <Route path="/dashboard" element={<Private><Dashboard /></Private>} />
-          <Route path="/table" element={<Private><TablePage /></Private>} />
-          <Route path="/report" element={<Private><ReportPage /></Private>} />
-          <Route path="/map" element={<Private><MapPage /></Private>} />
+          <Route path="/table_list/clinical_list" element={<Private><ClinicalTablePage/></Private>} />
+          <Route path="/table_list/demographics_list" element={<Private><DemographicsTablePage/></Private>} />
+          <Route path="/table_list/env_risk_factors" element={<Private><EnvTablePage/></Private>} />
+          <Route path="/reports/clinical_details" element={<Private><ClinicalReportPage /></Private>} />
+          <Route path="/reports/demographics_report" element={<Private><DemographicsReportPage /></Private>} />
+          <Route path="/map" element={<Private><MapPage /></Private>} />   
 
           <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} replace />} />
         </Routes>
       </div>
     </BrowserRouter>
   );
-}
-      
+}   
+            

@@ -1,6 +1,6 @@
 // src/components/Report.jsx
 import React, { useEffect, useState, useRef } from "react";
-import api from "../api/api";
+import api from "../../api/api";
 import html2pdf from "html2pdf.js";
 import {
   UsersIcon,
@@ -10,7 +10,7 @@ import {
 
 const base = "/api/"; // adjust if your API prefix differs
 
-export default function Report() {
+export default function DemographicsReportPage() {
   const [stats, setStats] = useState({ total_cases: 0, female_cases: 0, male_cases: 0 });
   const [byDistrict, setByDistrict] = useState([]);
   const [diseaseDist, setDiseaseDist] = useState([]);
@@ -24,7 +24,7 @@ export default function Report() {
       try {
         const [{ data: s }, { data: b }, { data: p }] = await Promise.all([
           api.get(`${base}statistics/`),
-          api.get(`${base}by-district/`),
+          api.get(`${base}by-district/`),  
           api.get(`${base}disease-distribution/`),
         ]);
 
