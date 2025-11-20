@@ -155,6 +155,25 @@ class CHWCaseViewSet(viewsets.ModelViewSet):
             .order_by('visit_type')   
         )
         return Response(list(data))
+
+    
+        
+    @action(detail=False, methods=['get'], url_path='reporting-method')
+    def reportingmethod(self, request):
+        """
+        .
+        """
+        qs = Case.objects.all()
+        patient_name = request.query_params.get("patient_name")
+        if patient_name:
+            qs = qs.filter(patient_name__icontains=patient_name)
+
+        data = (
+            qs.values('reporting_method')
+            .annotate(count=Count('id'))
+            .order_by('reporting_method')   
+        )
+        return Response(list(data))
     
 
     @action(detail=False, methods=['get'], url_path='statistics')

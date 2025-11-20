@@ -16,7 +16,7 @@ class Case(models.Model):
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)   
-    treatment = models.TextField(blank=True)
+    treatment = models.TextField(blank=True)   
     diagnosis = models.TextField(blank=True)
     symptoms = models.TextField(blank=True)
     address = models.TextField(blank=True)
